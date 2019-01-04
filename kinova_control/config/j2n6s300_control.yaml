@@ -34,6 +34,7 @@ j2n6s300:
     - j2n6s300_joint_finger_3
     type: effort_controllers/JointTrajectoryController
   effort_joint_trajectory_controller:
+    allow_partial_joints_goal: true
     constraints:
       goal_time: 0.6
       j2n6s300_joint_1:

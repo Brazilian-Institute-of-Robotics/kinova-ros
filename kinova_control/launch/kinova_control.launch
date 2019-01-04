@@ -56,8 +56,7 @@
     <remap from="/joint_states" to="/$(arg kinova_robotName)/joint_states"/>    
   </node>
   
-  <node name="command_robot_home_pose" pkg="kinova_control" type="move_robot.py"
-        respawn="false" output="screen" args="$(arg kinova_robotType)">       
-  </node>
+  <node name="home_position" pkg="kinova_joy" type="home_position"/>       
+
  
 </launch>
