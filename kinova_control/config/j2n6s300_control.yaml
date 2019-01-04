@@ -94,6 +94,8 @@ j2n6s300:
     - j2n6s300_joint_5
     - j2n6s300_joint_6
     type: effort_controllers/JointTrajectoryController
+
+  # Position Controllers ----------------------------------------------------  
   finger_1_position_controller:
     joint: j2n6s300_joint_finger_1
     pid:
@@ -115,6 +117,7 @@ j2n6s300:
       i: 0
       p: 10
     type: effort_controllers/JointPositionController
+
   joint_1_position_controller:
     joint: j2n6s300_joint_1
     pid:
@@ -157,6 +160,19 @@ j2n6s300:
       i: 0
       p: 500
     type: effort_controllers/JointPositionController
+
+  # Joint Group Position Controllers ----------------------------------------
+  arm_joint_group_controller:
+    joints:
+    - j2n6s300_joint_1
+    - j2n6s300_joint_2
+    - j2n6s300_joint_3
+    - j2n6s300_joint_4
+    - j2n6s300_joint_5
+    - j2n6s300_joint_6
+    type: effort_controllers/JointGroupEffortController
+
+  # Joint State Controllers -------------------------------------------------    
   joint_state_controller:
     publish_rate: 50
     type: joint_state_controller/JointStateController
