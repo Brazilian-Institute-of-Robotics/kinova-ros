@@ -41,7 +41,7 @@ int main(int argc, char** argv){
             msg.points[0].positions[i] = jointcmds[i];
         }
 
-        msg.points[0].time_from_start = ros::Duration(5.0);
+        msg.points[0].time_from_start = ros::Duration(1.0);
 
         pub.publish(msg);
 
