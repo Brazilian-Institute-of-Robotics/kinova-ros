@@ -13,6 +13,5 @@
                 joint_state_controller"/>
 
     <node name="joy_node" pkg="joy" type="joy_node"/>
-    <node name="joy_interface" pkg="kinova_joy" type="joy_interface"/>
-    <node name="home_position" pkg="kinova_joy" type="home_position"/>
+    <node name="joy_interface" pkg="kinova_joy" type="joy_interface" output="screen"/>
 </launch>

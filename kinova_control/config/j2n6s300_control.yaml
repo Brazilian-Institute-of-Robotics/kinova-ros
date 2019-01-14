@@ -122,9 +122,9 @@ j2n6s300:
   joint_1_position_controller:
     joint: j2n6s300_joint_1
     pid:
-      d: 0
-      i: 0
-      p: 500
+      d: 5
+      i: 10
+      p: 250
     type: effort_controllers/JointPositionController
   joint_2_position_controller:
     joint: j2n6s300_joint_2
