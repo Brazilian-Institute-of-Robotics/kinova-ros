@@ -6,12 +6,18 @@
 
 
 float pose[6] = {0.0, 2.9, 1.3, 4.2, 1.4, 0.0};
+//float pose[6] = {0.0, 0.0, 0.0, 0.0, 0.0 ,0.0};
 float states[6];
 
 void jointState(const sensor_msgs::JointState& state){
     for(int i=0; i<6; i++){
         states[i] = state.position[i];
     }
+}
+
+void shutdowAlarm(const ros::TimerEvent&){
+    ROS_INFO("FINISHING");
+    ros::shutdown();
 }
 
 int main(int argc, char** argv){
@@ -28,8 +34,12 @@ int main(int argc, char** argv){
 
     ros::Subscriber state = nh.subscribe("j2n6s300/joint_states", 1000, jointState);
 
+    ros::Timer timer = nh.createTimer(ros::Duration(2.0), shutdowAlarm);
+
     //Publishing messages at /joy rate
-    ros::Rate loop_rate(10);
+    ros::Rate loop_rate(100);
+
+    ros::spin();
 
     //The message objects to send command controller
     std_msgs::Float64 msg1;
@@ -56,23 +66,9 @@ int main(int argc, char** argv){
         joint_6.publish(msg6);
 
         ros::spinOnce();
+
         loop_rate.sleep();
-
-        for(int i = 0; i<6; i++){
-            if(states[i] - pose[i] <= 0.01){
-                finish = true;
-            }
-            else{
-                finish = false;
-                ROS_INFO("NOT FINISHED");
-            }
-        }
-        if(finish == true){
-            ROS_INFO("FINISHED");
-        }
     }
-
-    ros::spin();
 
     return 0;
 }
