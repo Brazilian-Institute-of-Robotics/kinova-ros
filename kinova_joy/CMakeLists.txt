@@ -38,3 +38,7 @@ add_dependencies(joy_interface ${catkin_EXPORTED_TARGETS} )
 add_executable(home_position src/home_position.cpp)
 target_link_libraries(home_position ${catkin_LIBRARIES})
 add_dependencies(home_position ${catkin_EXPORTED_TARGETS} )
+
+add_executable(joy_hposition src/joy_hposition.cpp)
+target_link_libraries(joy_hposition ${catkin_LIBRARIES})
+add_dependencies(joy_hposition ${catkin_EXPORTED_TARGETS} )

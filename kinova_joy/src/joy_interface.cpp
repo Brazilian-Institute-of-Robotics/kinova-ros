@@ -1,20 +1,31 @@
+#include <math.h>
 #include "ros/ros.h"
 #include "sensor_msgs/Joy.h"
+#include "sensor_msgs/JointState.h"
 #include "std_msgs/Float64.h"
 
-double analogic_x;
-double analogic_y;
+double analogic_x = 0.0;
+double analogic_y = 0.0;
 double channel_;
 
 int actualize;
 
-void callBackFunction(const sensor_msgs::Joy& msg){
-    analogic_x = msg.axes[0]*3.141592; 
-    analogic_y = msg.axes[1]*(3.141592);
+float joints[6] = {0.0, 0.0, 0.0, 0.0, 0.0 ,0.0};
+
+void joyReceiver(const sensor_msgs::Joy& msg){
+    analogic_x = msg.axes[0]*0.2; 
+    analogic_y = msg.axes[1]*0.2;
 
     actualize = msg.buttons[0];
 
     channel_ = msg.axes[6]*(-1);
+
+}
+
+void jointState(const sensor_msgs::JointState& state){
+    for(int i=0; i<6; i++){
+        joints[i] = state.position[i];
+    }
 }
 
 int main(int argc, char** argv){
@@ -35,7 +46,8 @@ int main(int argc, char** argv){
     ros::Publisher joint_5 = nh.advertise<std_msgs::Float64>("j2n6s300/joint_5_position_controller/command", 1000);
     ros::Publisher joint_6 = nh.advertise<std_msgs::Float64>("j2n6s300/joint_6_position_controller/command", 1000);
 
-    ros::Subscriber sub = nh.subscribe("joy", 1000, callBackFunction);
+    ros::Subscriber joy = nh.subscribe("joy", 1000, joyReceiver);
+    ros::Subscriber state = nh.subscribe("j2n6s300/joint_states", 1000, jointState); 
 
     //Publishing messages at /joy rate
     ros::Rate loop_rate(10);
@@ -57,10 +69,7 @@ int main(int argc, char** argv){
             }
         }
         ROS_INFO("Channel %d", channel);
-        //Creating the message object for joint_controller input
-        msg1.data = analogic_x;
-        msg2.data = analogic_y;
-
+    
         if(actualize == 1){
             ROS_INFO("Status %d", status);
             status = !status;
@@ -70,31 +79,54 @@ int main(int argc, char** argv){
             switch(channel){
                 case 1:
                     ROS_INFO("Joint %d", channel);
+
+                    //Creating the message object for joint_controller input
+                    if( fabs(analogic_x) == 0.2){
+                        msg1.data = analogic_x + joints[channel-1];
+                    }
+
+                    ROS_INFO("Data %f", fabs(analogic_x));
+
                     joint_1.publish(msg1);
                 break;
 
                 case 2:
                     ROS_INFO("Joint %d", channel);
+                    if( fabs(analogic_y) == 0.2){
+                        msg2.data = analogic_y + joints[channel-1];
+                    }
                     joint_2.publish(msg2);
                 break;
 
                 case 3:
                     ROS_INFO("Joint %d", channel);
+                    if( fabs(analogic_y) == 0.2){
+                        msg2.data = analogic_y + joints[channel-1];
+                    }
                     joint_3.publish(msg2);
                 break;
 
                 case 4:
                     ROS_INFO("Joint %d", channel);
+                    if( fabs(analogic_y) == 0.2){
+                        msg2.data = analogic_y + joints[channel-1];
+                    }
                     joint_4.publish(msg2);
                 break;
 
                 case 5:
                     ROS_INFO("Joint %d", channel);
+                    if( fabs(analogic_y) == 0.2){
+                        msg2.data = analogic_y + joints[channel-1];
+                    }
                     joint_5.publish(msg2);
                 break;
 
                 case 6:
                     ROS_INFO("Joint %d", channel);
+                    if( fabs(analogic_y) == 0.2){
+                        msg2.data = analogic_y + joints[channel-1];
+                    }
                     joint_6.publish(msg2);
                 break;
             }
