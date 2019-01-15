@@ -83,11 +83,10 @@ int main(int argc, char** argv){
                     //Creating the message object for joint_controller input
                     if( fabs(analogic_x) == 0.2){
                         msg1.data = analogic_x + joints[channel-1];
+                        joint_1.publish(msg1);
                     }
 
                     ROS_INFO("Data %f", fabs(analogic_x));
-
-                    joint_1.publish(msg1);
                 break;
 
                 case 2:

@@ -5,7 +5,14 @@
 #include "std_msgs/Float64.h"
 
 
-float joints[6] = {0.0, 2.9, 1.3, 4.2, 1.4, 0.0};
+float pose[6] = {0.0, 2.9, 1.3, 4.2, 1.4, 0.0};
+float states[6];
+
+void jointState(const sensor_msgs::JointState& state){
+    for(int i=0; i<6; i++){
+        states[i] = state.position[i];
+    }
+}
 
 int main(int argc, char** argv){
     ros::init(argc, argv, "joy_interface");
@@ -19,6 +26,8 @@ int main(int argc, char** argv){
     ros::Publisher joint_5 = nh.advertise<std_msgs::Float64>("j2n6s300/joint_5_position_controller/command", 1000);
     ros::Publisher joint_6 = nh.advertise<std_msgs::Float64>("j2n6s300/joint_6_position_controller/command", 1000);
 
+    ros::Subscriber state = nh.subscribe("j2n6s300/joint_states", 1000, jointState);
+
     //Publishing messages at /joy rate
     ros::Rate loop_rate(10);
 
@@ -31,6 +40,14 @@ int main(int argc, char** argv){
     std_msgs::Float64 msg6;
 
     while(ros::ok()){
+        bool finish;
+        msg1.data = pose[0];
+        msg2.data = pose[1];
+        msg3.data = pose[2];
+        msg4.data = pose[3];
+        msg5.data = pose[4];
+        msg6.data = pose[5];
+
         joint_1.publish(msg1);
         joint_2.publish(msg2);
         joint_3.publish(msg3);
@@ -40,6 +57,19 @@ int main(int argc, char** argv){
 
         ros::spinOnce();
         loop_rate.sleep();
+
+        for(int i = 0; i<6; i++){
+            if(states[i] - pose[i] <= 0.01){
+                finish = true;
+            }
+            else{
+                finish = false;
+                ROS_INFO("NOT FINISHED");
+            }
+        }
+        if(finish == true){
+            ROS_INFO("FINISHED");
+        }
     }
 
     ros::spin();
