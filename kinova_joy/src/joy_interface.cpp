@@ -10,6 +10,7 @@ double channel_;
 
 int actualize;
 
+float pose[6] = {0.0, 2.9, 1.3, 4.2, 1.4, 0.0};
 float joints[6] = {0.0, 0.0, 0.0, 0.0, 0.0 ,0.0};
 
 void joyReceiver(const sensor_msgs::Joy& msg){
@@ -82,9 +83,14 @@ int main(int argc, char** argv){
 
                     //Creating the message object for joint_controller input
                     if( fabs(analogic_x) == 0.2){
-                        msg1.data = analogic_x + joints[channel-1];
-                        joint_1.publish(msg1);
+                        msg1.data = analogic_x + pose[channel-1];
+                        pose[channel-1] = msg1.data;
                     }
+                    else{
+                        msg1.data = pose[channel-1];
+                    }
+                    joint_1.publish(msg1);
+
 
                     ROS_INFO("Data %f", fabs(analogic_x));
                 break;
@@ -92,7 +98,12 @@ int main(int argc, char** argv){
                 case 2:
                     ROS_INFO("Joint %d", channel);
                     if( fabs(analogic_y) == 0.2){
-                        msg2.data = analogic_y + joints[channel-1];
+                        msg2.data = analogic_y + pose[channel-1];
+                        pose[channel-1] = msg2.data;
+                        ROS_INFO("data = %f", msg2.data);
+                    }
+                    else{
+                        msg2.data = pose[channel-1];
                     }
                     joint_2.publish(msg2);
                 break;
@@ -100,7 +111,11 @@ int main(int argc, char** argv){
                 case 3:
                     ROS_INFO("Joint %d", channel);
                     if( fabs(analogic_y) == 0.2){
-                        msg2.data = analogic_y + joints[channel-1];
+                        msg2.data = analogic_y + pose[channel-1];
+                        pose[channel-1] = msg2.data;
+                    }
+                    else{
+                        msg2.data = pose[channel-1];
                     }
                     joint_3.publish(msg2);
                 break;
@@ -108,7 +123,11 @@ int main(int argc, char** argv){
                 case 4:
                     ROS_INFO("Joint %d", channel);
                     if( fabs(analogic_y) == 0.2){
-                        msg2.data = analogic_y + joints[channel-1];
+                        msg2.data = analogic_y + pose[channel-1];
+                        pose[channel-1] = msg2.data;
+                    }
+                    else{
+                        msg2.data = pose[channel-1];
                     }
                     joint_4.publish(msg2);
                 break;
@@ -116,7 +135,11 @@ int main(int argc, char** argv){
                 case 5:
                     ROS_INFO("Joint %d", channel);
                     if( fabs(analogic_y) == 0.2){
-                        msg2.data = analogic_y + joints[channel-1];
+                        msg2.data = analogic_y + pose[channel-1];
+                        pose[channel-1] = msg2.data;
+                    }
+                    else{
+                        msg2.data = pose[channel-1];
                     }
                     joint_5.publish(msg2);
                 break;
@@ -124,7 +147,11 @@ int main(int argc, char** argv){
                 case 6:
                     ROS_INFO("Joint %d", channel);
                     if( fabs(analogic_y) == 0.2){
-                        msg2.data = analogic_y + joints[channel-1];
+                        msg2.data = analogic_y + pose[channel-1];
+                        pose[channel-1] = msg2.data;
+                    }
+                    else{
+                        msg2.data = pose[channel-1];
                     }
                     joint_6.publish(msg2);
                 break;

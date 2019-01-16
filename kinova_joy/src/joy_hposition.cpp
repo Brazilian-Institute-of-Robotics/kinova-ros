@@ -37,9 +37,7 @@ int main(int argc, char** argv){
     ros::Timer timer = nh.createTimer(ros::Duration(2.0), shutdowAlarm);
 
     //Publishing messages at /joy rate
-    ros::Rate loop_rate(100);
-
-    ros::spin();
+    ros::Rate loop_rate(0.2);
 
     //The message objects to send command controller
     std_msgs::Float64 msg1;
@@ -50,6 +48,7 @@ int main(int argc, char** argv){
     std_msgs::Float64 msg6;
 
     while(ros::ok()){
+        ROS_INFO("rUNNING");
         bool finish;
         msg1.data = pose[0];
         msg2.data = pose[1];
