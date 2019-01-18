@@ -12,6 +12,7 @@
   <arg name="is7dof" default="false"/>
   <arg name ="use_joint_group_position_controller" default="false"/>
   <arg name ="joy_interface" default="false"/>
+  <arg name ="moveit" default="false"/>
 
   <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
@@ -40,6 +41,15 @@
       <arg name="is7dof" value="$(arg is7dof)"/>
       <arg name ="use_joint_group_position_controller" value="$(arg use_joint_group_position_controller)"/>
     </include>
+  </group>
+
+  <group if ="$(arg joy_interface)">
+    <include file="$(find kinova_joy)/launch/kinova_joy.launch"/>
+  </group>
+
+  <group if ="$(arg moveit)">
+     <!-- Load joint controller configurations from YAML file to parameter server -->
+    <rosparam file="$(find j2n6s300_moveit_config)/config/$(arg controllers_ros_control.yaml" command="load"/>
   </group>
 
   <!-- rqt launch file -->

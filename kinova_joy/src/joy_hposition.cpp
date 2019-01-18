@@ -42,7 +42,7 @@ int main(int argc, char** argv){
     ros::Timer timer = nh.createTimer(ros::Duration(2.0), shutdowAlarm);
 
     //Publishing messages at ... | default is /joy rate = loop_rate(10);
-    ros::Rate loop_rate(0.5);
+    ros::Rate loop_rate(0.2);
 
     //The message objects to send command controller
     std_msgs::Float64 msg1;
