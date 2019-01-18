@@ -6,6 +6,7 @@
 
 
 float pose[6] = {0.0, 2.9, 1.3, 4.2, 1.4, 0.0};
+float f_pose[3] = {1.0, 1.0, 1.0};
 //float pose[6] = {0.0, 0.0, 0.0, 0.0, 0.0 ,0.0};
 float states[6];
 
@@ -32,12 +33,16 @@ int main(int argc, char** argv){
     ros::Publisher joint_5 = nh.advertise<std_msgs::Float64>("j2n6s300/joint_5_position_controller/command", 1000);
     ros::Publisher joint_6 = nh.advertise<std_msgs::Float64>("j2n6s300/joint_6_position_controller/command", 1000);
 
+    ros::Publisher finger_1 = nh.advertise<std_msgs::Float64>("j2n6s300/finger_1_position_controller/command", 1000);
+    ros::Publisher finger_2 = nh.advertise<std_msgs::Float64>("j2n6s300/finger_2_position_controller/command", 1000);
+    ros::Publisher finger_3 = nh.advertise<std_msgs::Float64>("j2n6s300/finger_3_position_controller/command", 1000);
+
     ros::Subscriber state = nh.subscribe("j2n6s300/joint_states", 1000, jointState);
 
     ros::Timer timer = nh.createTimer(ros::Duration(2.0), shutdowAlarm);
 
-    //Publishing messages at /joy rate
-    ros::Rate loop_rate(0.2);
+    //Publishing messages at ... | default is /joy rate = loop_rate(10);
+    ros::Rate loop_rate(0.5);
 
     //The message objects to send command controller
     std_msgs::Float64 msg1;
@@ -46,6 +51,10 @@ int main(int argc, char** argv){
     std_msgs::Float64 msg4;
     std_msgs::Float64 msg5;
     std_msgs::Float64 msg6;
+
+    std_msgs::Float64 fmsg1;
+    std_msgs::Float64 fmsg2;
+    std_msgs::Float64 fmsg3;
 
     while(ros::ok()){
         ROS_INFO("rUNNING");
@@ -57,12 +66,19 @@ int main(int argc, char** argv){
         msg5.data = pose[4];
         msg6.data = pose[5];
 
+        fmsg1.data = f_pose[0];
+        fmsg2.data = f_pose[1];
+        fmsg3.data = f_pose[2];
+
         joint_1.publish(msg1);
         joint_2.publish(msg2);
         joint_3.publish(msg3);
         joint_4.publish(msg4);
         joint_5.publish(msg5);
         joint_6.publish(msg6);
+        finger_1.publish(fmsg1);
+        finger_2.publish(fmsg2);
+        finger_3.publish(fmsg3);
 
         ros::spinOnce();
 

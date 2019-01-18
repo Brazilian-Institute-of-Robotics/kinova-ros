@@ -22,12 +22,13 @@ void joyReceiver(const sensor_msgs::Joy& msg){
     channel_ = msg.axes[6]*(-1);
 
 }
-
+/*
 void jointState(const sensor_msgs::JointState& state){
     for(int i=0; i<6; i++){
         joints[i] = state.position[i];
     }
 }
+*/
 
 int main(int argc, char** argv){
     ros::init(argc, argv, "joy_interface");
@@ -48,7 +49,7 @@ int main(int argc, char** argv){
     ros::Publisher joint_6 = nh.advertise<std_msgs::Float64>("j2n6s300/joint_6_position_controller/command", 1000);
 
     ros::Subscriber joy = nh.subscribe("joy", 1000, joyReceiver);
-    ros::Subscriber state = nh.subscribe("j2n6s300/joint_states", 1000, jointState); 
+    //ros::Subscriber state = nh.subscribe("j2n6s300/joint_states", 1000, jointState); 
 
     //Publishing messages at /joy rate
     ros::Rate loop_rate(10);
@@ -81,7 +82,6 @@ int main(int argc, char** argv){
                 case 1:
                     ROS_INFO("Joint %d", channel);
 
-                    //Creating the message object for joint_controller input
                     if( fabs(analogic_x) == 0.2){
                         msg1.data = analogic_x + pose[channel-1];
                         pose[channel-1] = msg1.data;
@@ -111,7 +111,7 @@ int main(int argc, char** argv){
                 case 3:
                     ROS_INFO("Joint %d", channel);
                     if( fabs(analogic_y) == 0.2){
-                        msg2.data = analogic_y + pose[channel-1];
+                        msg2.data = analogic_y*0.2 + pose[channel-1]; //making joint_3 moves at 30% of other joints speed
                         pose[channel-1] = msg2.data;
                     }
                     else{
