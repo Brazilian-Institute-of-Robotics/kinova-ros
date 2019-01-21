@@ -49,7 +49,7 @@
 
   <group if ="$(arg moveit)">
      <!-- Load joint controller configurations from YAML file to parameter server -->
-    <rosparam file="$(find j2n6s300_moveit_config)/config/$(arg controllers_ros_control.yaml" command="load"/>
+    <rosparam file="$(find j2n6s300_moveit_config)/config/controllers.yaml" command="load"/>
   </group>
 
   <!-- rqt launch file -->
