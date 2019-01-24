@@ -33,20 +33,20 @@
     args="-urdf -model $(arg kinova_robotName) -param robot_description"/>
 
   <!-- ros_control launch file -->
-  <group unless ="$(arg joy_interface)">
-    <include file="$(find kinova_control)/launch/kinova_control.launch">
-      <arg name="kinova_robotName" value="$(arg kinova_robotName)"/>
-      <arg name="kinova_robotType" value="$(arg kinova_robotType)"/>
-      <arg name="use_trajectory_controller" value="$(arg use_trajectory_controller)"/>
-      <arg name="is7dof" value="$(arg is7dof)"/>
-      <arg name ="use_joint_group_position_controller" value="$(arg use_joint_group_position_controller)"/>
-    </include>
+  <group unless ="$(arg moveit)">
+    <group unless ="$(arg joy_interface)">
+      <include file="$(find kinova_control)/launch/kinova_control.launch">
+        <arg name="kinova_robotName" value="$(arg kinova_robotName)"/>
+        <arg name="kinova_robotType" value="$(arg kinova_robotType)"/>
+        <arg name="use_trajectory_controller" value="$(arg use_trajectory_controller)"/>
+        <arg name="is7dof" value="$(arg is7dof)"/>
+        <arg name ="use_joint_group_position_controller" value="$(arg use_joint_group_position_controller)"/>
+      </include>
+    </group>
+    <group if ="$(arg joy_interface)">
+      <include file="$(find kinova_joy)/launch/kinova_joy.launch"/>
+    </group>
   </group>
-
-  <group if ="$(arg joy_interface)">
-    <include file="$(find kinova_joy)/launch/kinova_joy.launch"/>
-  </group>
-
   <group if ="$(arg moveit)">
      <!-- Load joint controller configurations from YAML file to parameter server -->
     <rosparam file="$(find j2n6s300_moveit_config)/config/controllers.yaml" command="load"/>

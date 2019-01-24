@@ -56,7 +56,7 @@
     <remap from="/joint_states" to="/$(arg kinova_robotName)/joint_states"/>    
   </node>
   
-  <node name="home_position" pkg="kinova_joy" type="home_position"/>       
+  <!-- <node name="home_position" pkg="kinova_joy" type="home_position"/>     -->
 
  
 </launch>
