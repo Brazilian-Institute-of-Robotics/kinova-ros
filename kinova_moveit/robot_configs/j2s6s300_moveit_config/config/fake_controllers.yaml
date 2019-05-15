@@ -12,3 +12,6 @@ controller_list:
       - j2s6s300_joint_finger_1
       - j2s6s300_joint_finger_2
       - j2s6s300_joint_finger_3
+  - name: fake_object_handle_controller
+    joints:
+      []
