@@ -63,7 +63,7 @@
     <xacro:property name="joint_2_axis_xyz" value="0 0 1" />
     <xacro:property name="joint_2_origin_xyz" value="0 0.0016 -0.11875" />
     <xacro:property name="joint_2_origin_rpy" value="-${J_PI/2} 0 ${J_PI}" />
-    <xacro:property name="joint_2_lower_limit" value="${47/180*J_PI}" />
+    <xacro:property name="joint_2_lower_limit" value="1.0" />
     <xacro:property name="joint_2_upper_limit" value="${313/180*J_PI}" />
 
     <xacro:property name="joint_3" value="joint_3" />
@@ -102,7 +102,7 @@
     <xacro:property name="joint_end_effector_type" value="fixed" />
     <xacro:property name="joint_end_effector_axis_xyz" value="0 0 0" />
     <xacro:property name="joint_end_effector_origin_xyz" value="0 0 -0.1600" />
-    <xacro:property name="joint_end_effector_origin_rpy" value="${J_PI} 0 0" />
+    <xacro:property name="joint_end_effector_origin_rpy" value="${J_PI} 0 ${J_PI/2}" />
 
 
 
